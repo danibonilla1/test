@@ -1,0 +1,2484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Black Sheep's Diary - Journey to the Depths of Human Essence</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@300;400;500;600;700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        :root {
+            --primary-gold: #d4af37;
+            --dark-gold: #8b7355;
+            --deep-purple: #1a0d2e;
+            --mystic-blue: #0f1419;
+            --ethereal-white: #f8f6f0;
+            --shadow-black: #000000;
+ 
+            --ethereal-white:#f8f6f0;
+            --page-cream:#fffef7;
+            --text-dark:#1a0d2e;
+            --shadow-dark:rgba(0,0,0,0.4);
+        }
+        body {
+            font-family: 'Crimson Text', serif;
+            background: radial-gradient(ellipse at center, var(--deep-purple) 0%, var(--mystic-blue) 70%, var(--shadow-black) 100%);
+            color: var(--ethereal-white);
+            overflow-x: hidden;
+            line-height: 1.7;
+            min-height: 100vh;
+            cursor: auto;
+        }
+
+        /* Canvas para el nuevo fondo de partículas */
+        #particleCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw !important;
+            height: 100vh !important;
+            max-width: 100vw;
+            max-height: 100vh;
+            display: block;
+            z-index: 0; /* Detrás del contenido */
+            opacity: 0.5;
+        }
+
+        /* Header */
+        .header {
+            visibility:hidden; 
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 25px 0;
+            background: linear-gradient(180deg, rgba(26, 13, 46, 0.9) 0%, transparent 100%);
+            backdrop-filter: blur(15px) saturate(1.5);
+            z-index: 1000;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+        }
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 40px;
+        }
+        .logo {
+            font-family: 'Cinzel', serif;
+            font-size: 1.8rem;
+            font-weight: 600;
+            background: linear-gradient(135deg, var(--primary-gold), var(--ethereal-white), var(--primary-gold));
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 2px;
+            text-shadow: 0 0 30px rgba(212, 175, 55, 0.5);
+        }
+        .nav-links {
+            display: flex;
+            gap: 50px;
+            list-style: none;
+        }
+        .nav-links a {
+            color: var(--ethereal-white);
+            text-decoration: none;
+            font-size: 1.1rem;
+            font-weight: 400;
+            letter-spacing: 1px;
+            position: relative;
+            transition: all 0.4s ease;
+            text-transform: uppercase;
+        }
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary-gold), transparent);
+            transition: width 0.4s ease;
+        }
+        .nav-links a:hover {
+            color: var(--primary-gold);
+            text-shadow: 0 0 20px rgba(212, 175, 55, 0.7);
+        }
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+        /* Hero Section with Video */
+        .hero {
+            height: 100vh;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            padding: 20px;
+        }
+        .hero-video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.3;
+            z-index: 1;
+        }
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(ellipse at center, transparent 0%, rgba(0, 0, 0, 0.7) 100%);
+            z-index: 2;
+        }
+        .hero-content {
+            position: relative;
+            z-index: 3;
+            text-align: center;
+            max-width: 900px;
+            padding: 0 40px;
+            animation: heroReveal 2s ease-out;
+        }
+        @keyframes heroReveal {
+            0% { opacity: 0; transform: translateY(100px) scale(0.8); }
+            100% { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        
+        .hero-video.youtube-bg {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: 1;
+    pointer-events: none;
+    opacity: 0.3;
+    overflow: hidden;
+}
+.hero-video.youtube-bg iframe {
+    width: 100vw;
+    height: 100vh;
+    min-width: 100%;
+    min-height: 100%;
+    object-fit: cover;
+    pointer-events: none;
+    opacity: 1;
+}
+        .hero h1 {
+            font-family: 'Cinzel', serif;
+            font-size: clamp(3rem, 7vw, 6rem);
+            font-weight: 500;
+            margin-bottom: 30px;
+            background: linear-gradient(135deg, var(--primary-gold) 0%, var(--ethereal-white) 50%, var(--primary-gold) 100%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 3px;
+            text-shadow: 0 0 50px rgba(212, 175, 55, 0.8);
+            animation: titleGlow 4s infinite ease-in-out;
+        }
+        @keyframes titleGlow {
+            0%, 100% { filter: drop-shadow(0 0 20px rgba(212, 175, 55, 0.8)); }
+            50% { filter: drop-shadow(0 0 40px rgba(212, 175, 55, 1)); }
+        }
+        .hero .subtitle {
+            font-size: clamp(1.5rem, 4vw, 2.5rem);
+            margin-bottom: 20px;
+            color: rgba(255, 255, 255, 0.9);
+            font-style: italic;
+            font-weight: 400;
+            letter-spacing: 1px;
+            animation: subtitleFade 2.5s ease-out 0.5s both;
+        }
+        @keyframes subtitleFade {
+            0% { opacity: 0; transform: translateY(30px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        .hero .tagline {
+            font-size: 1.3rem;
+            margin-bottom: 50px;
+            color: var(--primary-gold);
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            animation: taglinePulse 3s ease-out 1s both;
+        }
+        @keyframes taglinePulse {
+            0% { opacity: 0; transform: scale(0.8); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+        .hero .author {
+            font-size: 1.8rem;
+            color: var(--ethereal-white);
+            margin-bottom: 60px;
+            font-family: 'Cinzel', serif;
+            letter-spacing: 3px;
+            animation: authorSlide 2s ease-out 1.5s both;
+        }
+        @keyframes authorSlide {
+            0% { opacity: 0; transform: translateX(-50px); }
+            100% { opacity: 1; transform: translateX(0); }
+        }
+        .cta-button {
+            display: inline-block;
+            padding: 20px 60px;
+            background: linear-gradient(135deg, var(--primary-gold) 0%, var(--dark-gold) 100%);
+            color: var(--shadow-black);
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1.2rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 20px 60px rgba(212, 175, 55, 0.4);
+            position: relative;
+            overflow: hidden;
+            animation: ctaAppear 2s ease-out 2s both;
+        }
+        @keyframes ctaAppear {
+            0% { opacity: 0; transform: translateY(50px) scale(0.8); }
+            100% { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transition: left 0.6s ease;
+        }
+        .cta-button:hover {
+            transform: translateY(-10px) scale(1.05);
+            box-shadow: 0 30px 80px rgba(212, 175, 55, 0.7);
+            background: linear-gradient(135deg, var(--ethereal-white) 0%, var(--primary-gold) 100%);
+        }
+        .cta-button:hover::before {
+            left: 100%;
+        }
+        
+        
+ /* --- INICIO CSS LIBRO --- */
+
+       .book-section {
+            height: 400vh;
+            position: relative;
+        }
+
+        .book-container {
+            position: fixed;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transition: opacity 1s ease, visibility 1s ease;
+            z-index: 100;
+        }
+
+        .book-container.visible {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+        }
+
+        .book {
+            width: 400px;
+            height: 600px;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: all 1.6s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        /* Lomo */
+        .book-spine {
+            position: absolute;
+            left: -20px;
+            top: 0;
+            width: 40px;
+            height: 600px;
+            background: url("IMG_1424.jpg") no-repeat;
+            background-size: 800px 600px;
+            background-position: -380px 0;
+            transform: rotateY(-90deg);
+            transform-origin: right center;
+            z-index: 3;
+            border-radius: 0 5px 5px 0;
+            box-shadow: inset -5px 0 15px rgba(0,0,0,0.6);
+        }
+
+        .spine-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.6) 50%, rgba(0,0,0,0.3) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: inherit;
+        }
+
+        .spine-text {
+            color: #d4af37;
+            font-family: 'Cinzel', serif;
+            writing-mode: vertical-rl;
+            font-size: 16px;
+            letter-spacing: 3px;
+            font-weight: 600;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+        }
+
+        /* Portada exterior */
+        .book-cover-outer {
+            position: absolute;
+            inset: 0;
+            background: url("IMG_1424.jpg") no-repeat;
+            background-size: 800px 600px;
+            background-position: -400px 0;
+            border: 8px solid #000;
+            border-radius: 5px 15px 15px 5px;
+            z-index: 4;
+            box-shadow: 0 25px 80px rgba(0,0,0,0.7), 0 5px 25px rgba(212,175,55,0.3);
+            transform-origin: left center;
+            transition: transform 1.6s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        .book-cover-outer::after {
+            content: '';
+            position: absolute;
+            inset: 4px;
+            background: url("ornament1.png") no-repeat center;
+            background-size: 100% 100%;
+            pointer-events: none;
+            opacity: 0.8;
+        }
+
+        .cover-outer-overlay {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 30px 40px;
+            border-radius: 0 5px 5px 0;
+        }
+
+        .book-title {
+            font-family: 'Cinzel', serif;
+            font-size: 2.8rem;
+            color: #d4af37;
+            margin-bottom: 30px;
+            letter-spacing: 4px;
+            font-weight: 600;
+            text-shadow:
+                0 0 18px #000,
+                0 0 12px #000,
+                0 0 8px #000,
+                2px 2px 4px rgba(0,0,0,0.2);
+            line-height: 1.2;
+        }
+
+        .book-author {
+            font-size: 1.6rem;
+            color: #f8f6f0;
+            letter-spacing: 3px;
+            font-weight: 600;
+            text-shadow:
+                0 0 18px #000,
+                0 0 12px #000,
+                0 0 8px #000,
+                2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        /* Portada interior */
+        .book-cover-inner {
+            position: absolute;
+            inset: 5px 0 5px 5px;
+            background: #fffef7;
+            border-radius: 2px 12px 12px 2px;
+            z-index: 3;
+            box-shadow: inset 2px 0 5px rgba(0,0,0,0.1), 2px 0 8px rgba(0,0,0,0.2);
+            transform-origin: left center;
+            transition: transform 1.6s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        .cover-inner-overlay {
+            transform: scaleX(-1);
+            position: absolute;
+            inset: 0;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            border-radius: inherit;
+        }
+
+        .inner-title {
+            font-family: 'Cinzel', serif;
+            font-size: 2.2rem;
+            color: #1a0d2e;
+            margin-bottom: 20px;
+            letter-spacing: 2px;
+        }
+
+        .inner-author {
+            font-size: 1.2rem;
+            color: #1a0d2e;
+            letter-spacing: 1px;
+            opacity: 0.8;
+        }
+
+        /* Parte trasera de la portada */
+        .book-cover-back {
+            position: absolute;
+            inset: 5px 0 5px 5px;
+            background: #fffef7;
+            border-radius: 2px 12px 12px 2px;
+            transform: rotateY(180deg) scaleX(-1);
+            z-index: 2;
+            box-shadow: inset -2px 0 5px rgba(0,0,0,0.1), -2px 0 8px rgba(0,0,0,0.2);
+        }
+
+        .cover-back-overlay {
+            position: absolute;
+            inset: 0;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            text-align: center;
+            border-radius: inherit;
+            background: linear-gradient(135deg, rgba(212,175,55,0.05) 0%, rgba(0,0,0,0.02) 100%);
+        }
+
+        .cover-back-text {
+            font-family: 'Crimson Text', serif;
+            color: #1a0d2e;
+            line-height: 1.8;
+            font-size: 1.1rem;
+            font-style: italic;
+            text-align: center;
+        }
+
+        /* Páginas */
+        .book-pages-extra {
+            position: absolute;
+            left: 7px;
+            top: 7px;
+            width: 379px;
+            height: 583px;
+            background: linear-gradient(to right, #fff9e6 0%, #fff6dc 100%);
+            border-radius: 0 10px 10px 0;
+            z-index: 1;
+            box-shadow: 3px 0 20px rgba(0,0,0,0.15);
+        }
+
+        .book-pages {
+            position: absolute;
+            left: 10px;
+            top: 10px;
+            width: 376px;
+            height: 580px;
+            background: #fffef7;
+            border-radius: 0 8px 8px 0;
+            z-index: 2;
+            box-shadow: inset 0 0 20px rgba(212,175,55,0.1), 3px 0 15px rgba(0,0,0,0.3);
+        }
+
+        .pages-overlay {
+            position: absolute;
+            inset: 0;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            border-radius: inherit;
+            background: linear-gradient(to right, rgba(212,175,55,0.05) 0%, transparent 10%, transparent 90%, rgba(0,0,0,0.02) 100%);
+        }
+
+        .page-content {
+            font-family: 'Crimson Text', serif;
+            color: #1a0d2e;
+            line-height: 1.8;
+            font-size: 1.1rem;
+            text-align: justify;
+        }
+
+        .page-content h3 {
+            font-family: 'Cinzel', serif;
+            color: #d4af37;
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 1.5rem;
+        }
+
+        .page-lines {
+            position: absolute;
+            right: 0;
+            top: 10px;
+            bottom: 10px;
+            width: 2px;
+            background: repeating-linear-gradient(
+                to bottom,
+                rgba(0,0,0,0.05) 0px,
+                rgba(0,0,0,0.05) 2px,
+                transparent 2px,
+                transparent 6px
+            );
+        }
+
+        /* Contraportada interior */
+        .book-back-inner {
+            position: absolute;
+            inset: 5px 5px 5px 0;
+            background: #fffef7;
+            border-radius: 12px 2px 2px 12px;
+            transform: rotateY(180deg) translateZ(25px);
+            z-index: 2;
+            box-shadow: inset -2px 0 5px rgba(0,0,0,0.1), -2px 0 8px rgba(0,0,0,0.2);
+        }
+
+        .back-inner-overlay {
+            position: absolute;
+            inset: 0;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            border-radius: inherit;
+        }
+
+        .back-inner-text {
+            font-family: 'Crimson Text', serif;
+            color: #1a0d2e;
+            line-height: 1.6;
+            font-size: 1rem;
+            text-align: justify;
+        }
+
+        /* Contraportada exterior */
+        .book-back-outer {
+            position: absolute;
+            inset: 0;
+            background: url("IMG_1423.jpg") no-repeat;
+            background-size: 800px 600px;
+            background-position: 0 0;
+            border: 8px solid #000;
+            border-radius: 15px 5px 5px 15px;
+            transform: rotateY(180deg) translateZ(30px);
+            z-index: 1;
+            box-shadow: 0 25px 80px rgba(0,0,0,0.6), 0 5px 25px rgba(212,175,55,0.2);
+        }
+
+        .book-back-outer::after {
+            content: '';
+            position: absolute;
+            inset: 4px;
+            background: url("ornament1.png") no-repeat center;
+            background-size: 100% 100%;
+            pointer-events: none;
+            opacity: 0.8;
+        }
+
+        .back-outer-overlay {
+            position: absolute;
+            inset: 0px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end;
+            text-align: center;
+            padding: 60px 40px;
+            border-radius: 5px 0 0 5px;
+        }
+
+        .back-outer-text {
+            color: #f8f6f0;
+            font-style: italic;
+            font-size: 1.4rem;
+            line-height: 1.8;
+            font-family: 'Crimson Text', serif;
+            text-shadow:
+                0 0 18px #000,
+                0 0 12px #000,
+                0 0 8px #000,
+                2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        /* Estados de animación - Solo 3 pasos */
+        .book.step-0 { 
+            transform: translateY(0) rotateY(0) rotateX(0) scale(0.9);
+        }
+
+        .book.step-1 { 
+            transform: translateY(-50px) scale(1.0);
+        }
+
+        .book.step-2 { 
+            transform: translateY(-30px) translateX(-20px) rotateY(-25deg) rotateX(10deg) scale(1.1);
+        }
+
+        .book.step-3 { 
+            transform: translateY(-20px) translateX(-30px) rotateY(-30deg) rotateX(15deg) scale(1.15);
+        }
+
+        .book.step-4 { 
+            transform: translateX(-200px) rotateY(-180deg) scale(1);
+        }
+
+        .book.step-2 .book-cover-outer,
+        .book.step-2 .book-cover-inner { 
+            transform: rotateY(-120deg);
+        }
+
+        .book.step-3 .book-cover-outer,
+        .book.step-3 .book-cover-inner { 
+            transform: rotateY(-120deg);
+        }
+
+        .book.step-4 .book-cover-outer,
+        .book.step-4 .book-cover-inner { 
+            transform: rotateY(-180deg);
+        }
+
+        /* Indicador etéreo */
+        .ethereal-indicator {
+            position: fixed;
+            bottom: 60px;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.8s ease;
+            z-index: 101;
+        }
+
+        .ethereal-indicator.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .ethereal-text {
+            color: #d4af37;
+            font-family: 'Cinzel', serif;
+            font-size: 1.2rem;
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.6);
+            margin-bottom: 10px;
+            animation: etherealGlow 3s ease-in-out infinite alternate;
+            transition: opacity 0.5s ease;
+        }
+
+        @keyframes etherealGlow {
+            0% { 
+                text-shadow: 2px 2px 8px rgba(0,0,0,0.6), 0 0 20px rgba(212,175,55,0.3);
+            }
+            100% {
+                text-shadow: 2px 2px 8px rgba(0,0,0,0.6), 0 0 30px rgba(212,175,55,0.6);
+            }
+        }
+
+       /* Responsive */
+        @media (max-width: 768px) {
+            .book {
+                width: 280px;
+                height: 420px;
+            }
+            
+            
+            .book-cover-outer {
+                background-size: 480px 360px; 
+                background-position: -240px 0;
+            }
+            
+            .book-back-outer {
+                background-size: 480px 360px; 
+                background-position: 0 0;
+            }
+            
+            
+            .book-spine {
+                left: -15px;
+                width: 30px;
+                height: 420px;
+            }
+            
+            .spine-text {
+                font-size: 12px;
+                letter-spacing: 2px;
+            }
+            
+            .book-pages-extra {
+                left: 5px;
+                top: 5px;
+                width: 265px;
+                height: 408px;
+            }
+            
+            .book-pages {
+                left: 7px;
+                top: 7px;
+                width: 263px;
+                height: 406px;
+            }
+            
+            .pages-overlay {
+                padding: 2px;
+            }
+            
+            .page-content {
+                font-size: 0.9rem;
+                line-height: 1.6;
+            }
+            
+            .page-content h3 {
+                font-size: 1.2rem;
+                margin-bottom: 15px;
+            }
+            
+            .cover-inner-overlay,
+            .cover-back-overlay,
+            .back-inner-overlay {
+                padding: 25px;
+            }
+            
+            .inner-title {
+                font-size: 1.6rem;
+                margin-bottom: 15px;
+                letter-spacing: 1px;
+            }
+            
+            .inner-author {
+                font-size: 1rem;
+            }
+            
+            .cover-back-text,
+            .back-inner-text {
+                font-size: 0.9rem;
+                line-height: 1.6;
+            }
+            
+            .back-outer-text {
+                font-size: 1.1rem;
+                line-height: 1.6;
+            }
+            
+            .back-outer-overlay,
+            .cover-outer-overlay {
+                padding: 40px 25px;
+            }
+            
+            .book-title {
+                font-size: 2rem;
+            }
+            
+            .book-author {
+                font-size: 1.2rem;
+            }
+            
+            .ethereal-text {
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .book {
+                width: 240px;
+                height: 360px;
+            }
+            
+            .book-spine {
+                left: -12px;
+                width: 24px;
+                height: 360px;
+            }
+            
+            .spine-text {
+                font-size: 10px;
+                letter-spacing: 1px;
+            }
+            
+            .book-pages-extra {
+                left: 4px;
+                top: 4px;
+                width: 228px;
+                height: 350px;
+            }
+            
+            .book-pages {
+                left: 6px;
+                top: 6px;
+                width: 226px;
+                height: 348px;
+            }
+            
+            .pages-overlay {
+                padding: 20px;
+            }
+            
+            .page-content {
+                font-size: 0.8rem;
+                line-height: 1.5;
+            }
+            
+            .page-content h3 {
+                font-size: 1rem;
+                margin-bottom: 12px;
+            }
+            
+            .cover-inner-overlay,
+            .cover-back-overlay,
+            .back-inner-overlay {
+                padding: 20px;
+            }
+            
+            .inner-title {
+                font-size: 1.3rem;
+                margin-bottom: 12px;
+            }
+            
+            .inner-author {
+                font-size: 0.9rem;
+            }
+            
+            .cover-back-text,
+            .back-inner-text {
+                font-size: 0.8rem;
+                line-height: 1.5;
+            }
+            
+            .back-outer-text {
+                font-size: 1rem;
+                line-height: 1.5;
+            }
+            
+            .back-outer-overlay,
+            .cover-outer-overlay {
+                padding: 30px 20px;
+            }
+            
+            .ethereal-text {
+                font-size: 0.9rem;
+            }
+        }
+        
+        
+        /* OURSTORY STYLE */
+        
+        .story {
+            padding: 80px 0;
+            background: radial-gradient(ellipse at top, rgba(75,0,130,0.2) 0%, transparent 70%), 
+                       linear-gradient(180deg,rgba(26,13,46,0.5) 0%,rgba(15,20,25,0.8) 100%);
+            position: relative;
+            overflow: hidden;
+            min-height: 100vh;
+        }
+
+        .story-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+            padding: 0 24px;
+        }
+
+        .story h2 {
+            font-family: 'Cinzel', serif;
+            font-size: 3rem;
+            text-align: center;
+            color: #d4af37;
+            margin-bottom: 60px;
+            letter-spacing: 3px;
+            text-shadow: 0 0 24px rgba(212, 175, 55, 0.5);
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 1s ease;
+        }
+
+        .story h2.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .journey-container { 
+            position: relative; 
+            padding: 40px 0;
+        }
+
+        .journey-timeline {
+            position: absolute; 
+            left: 50%; 
+            top: 0; 
+            width: 4px; 
+            height: 100%;
+            background: linear-gradient(180deg, transparent 0%, rgba(212, 175, 55, 0.3) 10%, rgba(212, 175, 55, 0.8) 50%, rgba(212, 175, 55, 0.3) 90%, transparent 100%);
+            transform: translateX(-50%); 
+            z-index: 1;
+        }
+
+        .journey-step {
+            position: relative;
+            margin-bottom: 160px; 
+            opacity: 0; 
+            transform: translateY(80px); 
+            transition: all 1s cubic-bezier(0.4,0,0.2,1);
+            min-height: 400px;
+            display: flex;
+            align-items: center;
+        }
+
+        .journey-step.visible { 
+            opacity: 1; 
+            transform: translateY(0); 
+        }
+
+        /* Video como proyección de fondo con degradados etéreos */
+        .journey-visual {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 60%;
+            overflow: hidden;
+            z-index: 1;
+            border-radius: 20px;
+        }
+
+        .journey-step:nth-child(odd) .journey-visual {
+            left: 0;
+            mask: linear-gradient(to right, rgba(0,0,0,1) 0%, rgba(0,0,0,0.9) 70%, rgba(0,0,0,0.3) 85%, rgba(0,0,0,0) 100%);
+            -webkit-mask: linear-gradient(to right, rgba(0,0,0,1) 0%, rgba(0,0,0,0.9) 70%, rgba(0,0,0,0.3) 85%, rgba(0,0,0,0) 100%);
+        }
+
+        .journey-step:nth-child(even) .journey-visual {
+            right: 0;
+            mask: linear-gradient(to left, rgba(0,0,0,1) 0%, rgba(0,0,0,0.9) 70%, rgba(0,0,0,0.3) 85%, rgba(0,0,0,0) 100%);
+            -webkit-mask: linear-gradient(to left, rgba(0,0,0,1) 0%, rgba(0,0,0,0.9) 70%, rgba(0,0,0,0.3) 85%, rgba(0,0,0,0) 100%);
+        }
+
+        .journey-video {
+            width: 100%; 
+            height: 100%; 
+            object-fit: cover; 
+            transition: transform 0.7s ease;
+            filter: brightness(0.7) contrast(1.1) saturate(1.2);
+        }
+
+        .journey-step:hover .journey-video { 
+            transform: scale(1.05);
+            filter: brightness(0.8) contrast(1.2) saturate(1.3);
+        }
+
+        /* Contenedor de texto bien separado */
+        .journey-text { 
+            position: relative;
+            z-index: 2;
+            width: 55%;
+            padding: 40px;
+            transform: scale(1.05);
+            background: linear-gradient(135deg, rgba(15,20,25,0.95) 0%, rgba(26,13,46,0.9) 100%);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        }
+
+        .journey-step:nth-child(odd) .journey-text {
+            margin-left: auto;
+            margin-right: -100px;
+            text-align: left;
+        }
+
+        .journey-step:nth-child(even) .journey-text {
+            margin-right: auto;
+            margin-left: -100px;
+            text-align: right;
+        }
+
+        .journey-number { 
+            font-family: 'Cinzel', serif; 
+            font-size: 1rem; 
+            color: #d4af37; 
+            letter-spacing: 2px; 
+            margin-bottom: 16px; 
+            text-transform: uppercase; 
+        }
+
+        .journey-title { 
+            font-family: 'Cinzel', serif; 
+            font-size: 1.7rem; 
+            color: #fffef7; 
+            margin-bottom: 16px; 
+            letter-spacing: 2px; 
+        }
+
+        .journey-description { 
+            font-size: 1.1rem; 
+            line-height: 1.7; 
+            color: #f8f6f0; 
+            margin-bottom: 20px; 
+        }
+
+        .journey-quote { 
+            font-style: italic; 
+            font-size: 1rem; 
+            color: #d4af37; 
+            padding: 16px; 
+            border-left: 3px solid #d4af37; 
+            background: rgba(212, 175, 55, 0.05); 
+            border-radius: 8px; 
+        }
+
+        .journey-step:nth-child(even) .journey-quote { 
+            border-left: none; 
+            border-right: 3px solid #d4af37; 
+        }
+
+        /* Overlay etéreo para los videos */
+        .journey-visual::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(ellipse at center, transparent 0%, rgba(212, 175, 55, 0.1) 40%, rgba(139, 69, 193, 0.15) 70%, rgba(26, 13, 46, 0.3) 100%),
+                linear-gradient(135deg, rgba(212, 175, 55, 0.05) 0%, transparent 50%, rgba(139, 69, 193, 0.08) 100%);
+            pointer-events: none;
+            mix-blend-mode: overlay;
+        }
+
+        .journey-dot {
+            position: absolute; 
+            left: 50%; 
+            top: 50%; 
+            width: 16px; 
+            height: 16px; 
+            background: #d4af37;
+            border-radius: 50%; 
+            transform: translate(-50%, -50%); 
+            z-index: 3; 
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.8);
+            transition: all 0.5s;
+        }
+
+        .journey-step.visible .journey-dot { 
+            animation: dotPulse 2s infinite ease-in-out; 
+        }
+
+        @keyframes dotPulse {
+            0%, 100% { 
+                transform: translate(-50%, -50%) scale(1); 
+                box-shadow: 0 0 20px rgba(212, 175, 55, 0.8); 
+            }
+            50% { 
+                transform: translate(-50%, -50%) scale(1.25); 
+                box-shadow: 0 0 32px rgba(212, 175, 55, 1); 
+            }
+        }
+
+        /* Loading overlay para videos */
+        .video-loading {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #d4af37;
+            font-size: 14px;
+            transition: opacity 0.5s ease;
+        }
+
+        .video-loading.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        /* RESPONSIVE FIXES */
+        @media (max-width: 1300px) {
+            .journey-container {
+                padding: 20px 0;
+            }
+
+            .journey-step { 
+                flex-direction: column !important; 
+                text-align: center; 
+                margin-bottom: 80px;
+                min-height: auto;
+                align-items: stretch;
+                padding: 0 20px; /* Padding lateral para evitar que toque los bordes */
+            }
+
+            .journey-visual {
+                position: static !important;
+                width: 100% !important;
+                height: 250px !important;
+                margin-bottom: 30px;
+                border-radius: 15px;
+                /* Resetear máscaras en móvil */
+                mask: none !important;
+                -webkit-mask: none !important;
+            }
+            
+            .journey-text { 
+                position: static !important;
+                width: 100% !important;
+                margin: 0 !important;
+                text-align: center !important; 
+                padding: 30px 25px;
+            }
+
+            .journey-quote {
+                border-left: 3px solid #d4af37 !important;
+                border-right: none !important;
+                text-align: left;
+            }
+            
+            .journey-timeline { 
+                display: none; 
+            }
+
+            .journey-dot {
+                display: none;
+            }
+
+            .story h2 {
+                font-size: 2.2rem;
+                margin-bottom: 40px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .story {
+                padding: 40px 0;
+            }
+
+            .story-content {
+                padding: 0 16px;
+            }
+
+            .story h2 {
+                font-size: 1.8rem;
+                margin-bottom: 30px;
+            }
+
+            .journey-step {
+                margin-bottom: 60px;
+                padding: 0 10px;
+            }
+
+            .journey-visual {
+                height: 200px !important;
+                margin-bottom: 20px;
+            }
+
+            .journey-text {
+                padding: 25px 20px;
+            }
+
+            .journey-title {
+                font-size: 1.4rem;
+            }
+
+            .journey-description {
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .journey-step {
+                padding: 0 5px;
+            }
+
+            .journey-text {
+                padding: 20px 15px;
+            }
+
+            .story h2 {
+                font-size: 1.5rem;
+            }
+        
+        }
+        
+        
+        
+        
+        /* OURSTORY STYLE END */
+        
+        /* Enhanced Features */
+/* Enhanced Features */
+.features {
+    padding: 150px 40px;
+    background: linear-gradient(135deg, rgba(26, 13, 46, 0.6) 0%, rgba(15, 20, 25, 0.9) 100%);
+}
+.features h2 {
+    font-family: 'Cinzel', serif;
+    text-align: center;
+    font-size: 4rem;
+    color: var(--primary-gold);
+    margin-bottom: 100px;
+    letter-spacing: 3px;
+    text-shadow: 0 0 40px rgba(212, 175, 55, 0.8);
+}
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 60px;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+.feature-card {
+    position: relative;
+    padding: 60px 40px;
+    border-radius: 30px;
+    text-align: center;
+    color: #fff;
+    background: var(--bg-url) center/cover no-repeat;
+    border: 2px solid rgba(212, 175, 55, 0.3);
+    box-shadow: 0 4px 20px rgba(15,13,25,0.2);
+    overflow: hidden;
+    backdrop-filter: blur(15px);
+    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.feature-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(15, 13, 25, 0.6);
+    z-index: 1;
+    pointer-events: none;
+}
+.feature-card h3,
+.feature-card p {
+    position: relative;
+    z-index: 2;
+}
+.feature-card h3 {
+    font-family: 'Cinzel', serif;
+    font-size: 2rem;
+    margin-bottom: 25px;
+    color: var(--primary-gold);
+    letter-spacing: 2px;
+}
+.feature-card p {
+    font-size: 1.2rem;
+    color: rgba(255,255,255,0.9);
+    line-height: 1.8;
+}
+.feature-card:hover {
+    transform: translateY(-20px) scale(1.05);
+    border-color: var(--primary-gold);
+    box-shadow: 0 30px 80px rgba(212, 175, 55, 0.4);
+}
+.highlight {
+    color: #ecdcb2;
+}
+/* Responsive */
+@media (max-width: 900px) {
+    .features-grid {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+    .features h2 {
+        font-size: 2.2rem;
+        margin-bottom: 40px;
+    }
+    .feature-card {
+        padding: 40px 20px;
+    }
+}
+
+        /* Enhanced Pre-order */
+        .preorder {
+            padding: 150px 40px;
+            text-align: center;
+            background: 
+                radial-gradient(ellipse at center, rgba(212, 175, 55, 0.1) 0%, transparent 70%),
+                linear-gradient(135deg, var(--deep-purple) 0%, var(--mystic-blue) 100%);
+            position: relative;
+        }
+        .preorder::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="stars" patternUnits="userSpaceOnUse" width="100" height="100"><circle cx="25" cy="25" r="1" fill="%23d4af37" opacity="0.3"><animate attributeName="opacity" values="0.3;1;0.3" dur="3s" repeatCount="indefinite"/></circle><circle cx="75" cy="75" r="1" fill="%23d4af37" opacity="0.3"><animate attributeName="opacity" values="0.3;1;0.3" dur="4s" repeatCount="indefinite"/></circle></pattern></defs><rect width="100" height="100" fill="url(%23stars)"/></svg>');
+            opacity: 0.3;
+            pointer-events: none;
+        }
+        .preorder h2 {
+            font-family: 'Cinzel', serif;
+            font-size: 4.5rem;
+            color: var(--primary-gold);
+            margin-bottom: 40px;
+            letter-spacing: 3px;
+            text-shadow: 0 0 50px rgba(212, 175, 55, 1);
+            position: relative;
+            z-index: 2;
+        }
+        .preorder-subtitle {
+            font-size: 1.8rem;
+            margin-bottom: 60px;
+            color: rgba(255, 255, 255, 0.9);
+            font-style: italic;
+            position: relative;
+            z-index: 2;
+        }
+        .price {
+            font-size: 3rem;
+            color: var(--primary-gold);
+            margin-bottom: 60px;
+            font-weight: 700;
+            font-family: 'Cinzel', serif;
+            letter-spacing: 3px;
+            text-shadow: 0 0 30px rgba(212, 175, 55, 0.8);
+            position: relative;
+            z-index: 2;
+        }
+        /* Footer */
+        .footer {
+            padding: 80px 40px;
+            text-align: center;
+            background: linear-gradient(180deg, transparent 0%, var(--shadow-black) 100%);
+            color: rgba(255, 255, 255, 0.6);
+            border-top: 1px solid rgba(212, 175, 55, 0.2);
+            position: relative; /* Para asegurar que esté sobre el canvas */
+            z-index: 2;
+        }
+        .footer p {
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+            letter-spacing: 1px;
+        }
+        /* Scroll Animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(80px);
+            transition: all 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .slide-left {
+            opacity: 0;
+            transform: translateX(-100px);
+            transition: all 1s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .slide-left.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        .slide-right {
+            opacity: 0;
+            transform: translateX(100px);
+            transition: all 1s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .slide-right.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        /* Mobile Responsiveness */
+        @media (max-width: 1024px) {
+            .nav-links {
+                display: none;
+            }
+            .header{
+                display: none;
+            }
+        }
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 3.5rem;
+            }
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            .features h2 {
+                  font-size: clamp(1.4rem, 6vw, 3rem);
+
+            }
+            .story-paragraph,
+            .feature-card {
+                padding: 40px 30px;
+            }
+            .preorder h2{
+  font-size: clamp(1.4rem, 6vw, 3rem);
+            }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="particleCanvas"></canvas>
+
+ <header class="header">
+    <nav class="nav">
+        <div class="logo" data-i18n="logo">Diario de una Oveja Negra</div>
+        <ul class="nav-links">
+            <li><a href="#home" data-i18n="nav.home">Inicio</a></li>
+            <li><a href="#story" data-i18n="nav.story">Historia</a></li>
+            <li><a href="#essence" data-i18n="nav.essence">Esencia</a></li>
+            <li><a href="#preorder" data-i18n="nav.preorder">Reserva</a></li>
+        </ul>
+    </nav>
+</header>
+
+<section id="home" class="hero">
+    <div class="hero-video youtube-bg">
+        <iframe src="https://www.youtube.com/embed/4n2JfCg1Edw?autoplay=1&mute=1&loop=1&playlist=4n2JfCg1Edw&controls=0&showinfo=0&modestbranding=1&iv_load_policy=3&rel=0"
+            frameborder="0"
+            allow="autoplay; encrypted-media"
+            allowfullscreen
+            title="Vídeo Diario de una Oveja Negra"
+            style="width:100%; height:100%;"></iframe>
+    </div>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+        <h1 data-i18n="hero.title">Diario de una Oveja Negra</h1>
+        <p class="subtitle" data-i18n="hero.subtitle">Un viaje a lo más profundo de la esencia humana</p>
+        <p class="author" data-i18n="hero.author">por Dani Bonilla</p>
+        <a href="#preorder" class="cta-button" data-i18n="cta.button">
+            Comienza el viaje
+        </a>
+        <div class="hero-hook" style="margin: 24px 0 10px 0; font-size:1.1rem; color:#e7dede; font-style: italic;" data-i18n="hero.hook">
+            Para quienes alguna vez se sintieron invisibles. Para quienes nunca terminaron de encajar.
+        </div>
+    </div>
+</section>
+
+<section class="book-section">
+    <div class="book-container">
+        <div class="book step-0" id="book">
+            <div class="book-spine">
+                <div class="spine-overlay">
+                    <div class="spine-text" data-i18n="book.spine">DIARIO DE UNA OVEJA NEGRA</div>
+                </div>
+            </div>
+            <div class="book-cover-outer">
+                <div class="cover-outer-overlay"></div>
+            </div>
+            <div class="book-cover-inner">
+                <div class="cover-inner-overlay">
+                    <h2 class="inner-title" data-i18n="book.inner.title">Un tributo<br>a los diferentes</h2>
+                    <div class="inner-author" data-i18n="book.inner.author">por Dani Bonilla</div>
+                </div>
+            </div>
+            <div class="book-cover-back">
+                <div class="cover-back-overlay">
+                    <div class="cover-back-text" data-i18n="book.back.quote">
+                        "Estas páginas contienen las reflexiones más íntimas de un alma que eligió caminar su propio camino, incluso cuando dolía."
+                    </div>
+                </div>
+            </div>
+            <div class="book-pages-extra"></div>
+            <div class="book-pages">
+                <div class="pages-overlay">
+                    <div class="page-content">
+                        <h3 data-i18n="page.intro.title">Introducción</h3>
+                        <p data-i18n="page.intro.p1">
+                            Algunos huyen de su rareza; otros se embarcan en ella. 
+                            <br><br>¿Y si la clave estuviera dentro de nuestra propia diferencia? ¿Y si ser diferente fuera la mayor aventura?
+                        </p>
+                        <br>
+                        <p data-i18n="page.intro.p2">
+                            Este diario no es solo una historia; es un viaje al otro lado del espejo.
+                            Quizá, en el margen, encuentres la puerta de salida.<br><br>
+                            Solo los que se atreven a dudar descubren el verdadero camino...
+                        </p>
+                    </div>
+                    <div class="page-lines"></div>
+                </div>
+            </div>
+            <div class="book-back-inner">
+                <div class="back-inner-overlay">
+                    <div class="back-inner-text">
+                        <p data-i18n="book.backinner.quote1">
+                            "Un viaje introspectivo que desafía las convenciones sociales y celebra la belleza de ser diferente. Bonilla nos regala una obra honesta y conmovedora que resonará en cualquiera que alguna vez se haya sentido fuera de lugar."
+                        </p>
+                        <br>
+                        <p style="text-align: right; font-style: italic;" data-i18n="book.backinner.critic">
+                            — Crítico literario
+                        </p>
+                        <p style="margin-top:16px; color:#d6ccaa; font-size:0.93rem;" data-i18n="book.backinner.reader1">
+                            "Por primera vez, me sentí visto."<br>
+                            — Lector
+                        </p>
+                        <p style="margin-top:4px; color:#d6ccaa; font-size:0.93rem;" data-i18n="book.backinner.reader2">
+                            "Este libro convirtió mi dolor en esperanza."<br>
+                            — Anónimo
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="book-back-outer">
+                <div class="back-outer-overlay">
+                    <p class="back-outer-text" data-i18n="book.backouter.text">
+                        "Una exploración cruda y honesta de la identidad humana."
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="ethereal-indicator" id="etherealIndicator">
+        <div class="ethereal-text" id="etherealText" data-i18n="book.ethereal">
+            El inicio de una gran aventura
+        </div>
+    </div>
+</section>
+
+<section id="story" class="story">
+    <div class="story-content">
+        <h2 class="fade-in" data-i18n="story.title">Inicios de la Historia</h2>
+        <div class="journey-container">
+            <div class="journey-timeline"></div>
+
+            <div class="journey-step" data-video-index="0">
+                <div class="journey-dot"></div>
+                <div class="journey-visual">
+                    <video class="journey-video" muted playsinline preload="metadata">
+                        <source src="https://replicate.delivery/xezq/uKoGHo6USY53BNgN29QQt7hPXP7tZzYtVnyvqG9fwOvUzWRKA/tmphkk4l9cz.mp4" type="video/mp4">
+                    </video>
+                    <div class="video-loading" data-i18n="story.loading">Cargando...</div>
+                </div>
+                <div class="journey-text">
+                    <div class="journey-number" data-i18n="story.step1.number">Primero...</div>
+                    <h3 class="journey-title" data-i18n="story.step1.title">Todo se viene abajo</h3>
+                    <p class="journey-description" data-i18n="story.step1.desc">
+                        La infancia de Leín se hace añicos con la repentina pérdida de sus padres biológicos, lanzándole a una realidad fría y desconocida. Ante el duelo y la humillación, se ve obligado a sobrevivir en un mundo que parece empujarle cada vez más al aislamiento.
+                    </p>
+                    <div class="journey-quote" data-i18n="story.step1.quote">
+                        “La vida se rompió en pedazos, y yo caí entre ellos.”
+                    </div>
+                </div>
+            </div>
+
+            <div class="journey-step" data-video-index="1">
+                <div class="journey-dot"></div>
+                <div class="journey-visual">
+                    <video class="journey-video" muted playsinline preload="metadata">
+                        <source src="https://replicate.delivery/xezq/Vb8o71XdSxaVDdbOTdNY5RUflHRFKc1AmvmFYZeB018TBuiUA/tmp_kk_vw1g.mp4" type="video/mp4">
+                    </video>
+                    <div class="video-loading" data-i18n="story.loading">Cargando...</div>
+                </div>
+                <div class="journey-text">
+                    <div class="journey-number" data-i18n="story.step2.number">Después...</div>
+                    <h3 class="journey-title" data-i18n="story.step2.title">El falso hogar</h3>
+                    <p class="journey-description" data-i18n="story.step2.desc">
+                        Obligado a adaptarse a una familia adoptiva tóxica, Leín soporta un constante abuso emocional y soledad. Construyendo una coraza para protegerse, poco a poco se convierte en un extraño dentro de su propia vida, sin llegar nunca a pertenecer.
+                    </p>
+                    <div class="journey-quote" data-i18n="story.step2.quote">
+                        “Era un extraño en mi propia casa.”
+                    </div>
+                </div>
+            </div>
+
+            <div class="journey-step" data-video-index="2">
+                <div class="journey-dot"></div>
+                <div class="journey-visual">
+                    <video class="journey-video" muted playsinline preload="metadata">
+                        <source src="https://replicate.delivery/xezq/1dbbYCYunIZ4ARB0YwKTjiNegecboTrlWRYi7yTfnAyEC9CpA/tmpnt03699i.mp4" type="video/mp4">
+                    </video>
+                    <div class="video-loading" data-i18n="story.loading">Cargando...</div>
+                </div>
+                <div class="journey-text">
+                    <div class="journey-number" data-i18n="story.step3.number">Luego...</div>
+                    <h3 class="journey-title" data-i18n="story.step3.title">Fuga interior</h3>
+                    <p class="journey-description" data-i18n="story.step3.desc">
+                        Encontrando refugio en la creatividad, Leín construye mundos alternativos en su mente—su único santuario ante el dolor. Allí, la imaginación se convierte en supervivencia y mantiene viva la esperanza mientras el mundo exterior sigue siendo hostil.
+                    </p>
+                    <div class="journey-quote" data-i18n="story.step3.quote">
+                        “Dentro de mí, construí un mundo donde por fin podía respirar.”
+                    </div>
+                </div>
+            </div>
+
+            <div class="journey-step" data-video-index="3">
+                <div class="journey-dot"></div>
+                <div class="journey-visual">
+                    <video class="journey-video" muted playsinline preload="metadata">
+                        <source src="https://replicate.delivery/xezq/UbdsgDvKJVocLJj2vRTXobmaMraXendC5jxwwgcQnY8zRXRKA/tmpj8f4_5ar.mp4" type="video/mp4">
+                    </video>
+                    <div class="video-loading" data-i18n="story.loading">Cargando...</div>
+                </div>
+                <div class="journey-text">
+                    <div class="journey-number" data-i18n="story.step4.number">Por último...</div>
+                    <h3 class="journey-title" data-i18n="story.step4.title">Renacimiento del alma</h3>
+                    <p class="journey-description" data-i18n="story.step4.desc">
+                        Cansado de esconderse y fingir, Leín finalmente escapa de su hogar opresivo y se lanza al mundo, decidido a descubrir su verdadera esencia. En medio de la incertidumbre y el miedo, da sus primeros pasos en libertad, dispuesto a vivir según sus propias reglas.
+                    </p>
+                    <div class="journey-quote" data-i18n="story.step4.quote">
+                        “Lo arriesgué todo para descubrir quién soy realmente.”
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="essence" class="features">
+  <div class="container fade-in">
+    <h2 data-i18n="essence.title">Los elementos sagrados</h2>
+    <div class="features-grid">
+      <div class="feature-card" style="--bg-url: url('001.jpeg')">
+        <h3 data-i18n="essence.card1.title">Misticismo crudo</h3>
+        <p data-i18n="essence.card1.text">
+          Un viaje sin miedo a la oscuridad sagrada…<br>
+          <span class="highlight">Convierte tu oscuridad en oro.</span>
+        </p>
+      </div>
+      <div class="feature-card" style="--bg-url: url('002.jpeg')">
+        <h3 data-i18n="essence.card2.title">Trascendencia creativa</h3>
+        <p data-i18n="essence.card2.text">
+          Sé testigo de la metamorfosis del arte…<br>
+          <span class="highlight">El arte es nuestro lenguaje secreto.</span>
+        </p>
+      </div>
+      <div class="feature-card" style="--bg-url: url('003.jpeg')">
+        <h3 data-i18n="essence.card3.title">Despertar universal</h3>
+        <p data-i18n="essence.card3.text">
+          Un mensaje luminoso para cada oveja negra…<br>
+          <span class="highlight">Tu exilio es tu iniciación.</span>
+        </p>
+      </div>
+      <div class="feature-card" style="--bg-url: url('004.jpeg')">
+        <h3 data-i18n="essence.card4.title">Sabiduría etérea</h3>
+        <p data-i18n="essence.card4.text">
+          Cada página contiene ideas multidimensionales…<br>
+          <span class="highlight">Esta es literatura que te inicia.</span>
+        </p>
+      </div>
+      <div class="feature-card" style="--bg-url: url('005.jpeg')">
+        <h3 data-i18n="essence.card5.title">Revelaciones nocturnas</h3>
+        <p data-i18n="essence.card5.text">
+          Este viaje atraviesa la noche oscura…<br>
+          <span class="highlight">Toda transformación empieza en la oscuridad.</span>
+        </p>
+      </div>
+      <div class="feature-card" style="--bg-url: url('006.jpeg')">
+        <h3 data-i18n="essence.card6.title">Magia transformadora</h3>
+        <p data-i18n="essence.card6.text">
+          Esto no es solo un libro—es un portal…<br>
+          <span class="highlight">Déjate transformar para siempre por la verdad sin filtros.</span>
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="preorder" class="preorder fade-in">
+    <div class="container">
+        <h2 data-i18n="preorder.title">Únete al viaje</h2>
+        <p class="preorder-subtitle" data-i18n="preorder.subtitle">Sé parte de la creación de esta historia transformadora.</p>
+        
+        <div class="status-message">
+            <h3 data-i18n="preorder.status.title">📝 En proceso de escritura</h3>
+            <p data-i18n="preorder.status.desc">
+                "Diario de una Oveja Negra" está siendo cuidadosamente crafteado, página a página. 
+                Cada palabra es elegida para resonar en el alma de quienes se sienten diferentes.
+            </p>
+        </div>
+
+        <div class="options-container">
+            <div class="option-card">
+                <div class="option-number">1</div>
+                <h3 class="option-title" data-i18n="option1.title">Acceso Anticipado</h3>
+                <p class="option-description" data-i18n="option1.desc">
+                    Acompaña el proceso creativo y lee los capítulos conforme van naciendo.
+                </p>
+                <ul class="option-benefits">
+                    <li data-i18n="option1.benefit1">Capítulos exclusivos antes que nadie</li>
+                    <li data-i18n="option1.benefit2">Contenido adicional y reflexiones del autor</li>
+                    <li data-i18n="option1.benefit3">Comunidad privada de lectores</li>
+                    <li data-i18n="option1.benefit4">Influencia en el desarrollo de la historia</li>
+                </ul>
+                <a href="#" class="cta-button" data-i18n="option1.cta">
+                    Apoyar en Patreon
+                </a>
+            </div>
+
+            <div class="option-card">
+                <div class="option-number">2</div>
+                <h3 class="option-title" data-i18n="option2.title">Lista de Espera</h3>
+                <p class="option-description" data-i18n="option2.desc">
+                    Reserva tu lugar para ser de los primeros en obtener el libro completo.
+                </p>
+                <ul class="option-benefits">
+                    <li data-i18n="option2.benefit1">Notificación prioritaria al lanzamiento</li>
+                    <li data-i18n="option2.benefit2">Precio especial de pre-venta</li>
+                    <li data-i18n="option2.benefit3">Contenido exclusivo de lanzamiento</li>
+                    <li data-i18n="option2.benefit4">Firma digital del autor</li>
+                </ul>
+                <a href="#" class="cta-button secondary-button" data-i18n="option2.cta">
+                    Wishlist en Indiegogo
+                </a>
+            </div>
+        </div>
+
+        <div class="coming-soon">
+            <p data-i18n="preorder.timeline">
+                <strong>Cronograma estimado:</strong> Primeros capítulos disponibles en Patreon este mes. 
+                Lanzamiento completo previsto para mediados de 2025.
+            </p>
+            <p data-i18n="preorder.promise">
+                Cada contribución y cada persona en la lista de espera ayuda a dar vida a esta historia. 
+                Gracias por creer en el poder de ser diferente.
+            </p>
+        </div>
+
+        <div class="testimonials">
+            <p data-i18n="preorder.testimonial1">"Una montaña rusa de emociones—a veces reí, a veces lloré. Siempre me sentí menos solo."</p>
+            <p data-i18n="preorder.testimonial2">"Me devolvió la esperanza y me recordó: ser diferente es hermoso."</p>
+        </div>
+    </div>
+</section>
+
+<footer class="footer">
+    <p data-i18n="footer.copyright">&copy; 202X Dani Bonilla. Todos los derechos reservados. Un viaje al alma.</p>
+    <p data-i18n="footer.disclaimer">Esta es una obra de ficción autobiográfica. Los nombres, personajes, lugares e incidentes son producto de la imaginación del autor o se utilizan de forma ficticia.</p>
+</footer>
+
+
+    
+     <script>
+class ScrollVideoController {
+  constructor(opts = {}) {
+    this.videos = [];
+    this.isScrolling = false;
+    this.scrollTimeout = null;
+    this.lastScrollTime = 0;
+
+    // --- parámetros fáciles de tunear ---
+    this.slowRate     = opts.slowRate     ?? 0.3;  // velocidad cuando no se hace scroll
+    this.focusOffset  = opts.focusOffset  ?? 0.30;  // 30 % del viewport = enfocado
+    this.scrubEpsilon = opts.scrubEpsilon ?? 0.07;  // salto mínimo antes de mover currentTime
+    this.scrollRate   = opts.scrollRate   ?? 0.002; // segundos por pixel scrolleado
+
+    // --- para control incremental ---
+    this.lastScrollY  = window.scrollY;
+    this.scrollDelta  = 0;
+
+    this.init();
+  }
+
+  /* --------------- INIT --------------- */
+  init() {
+    this.setupVideos();
+    this.setupScrollListener();
+    this.setupIntersectionObserver();
+  }
+
+  /* -------- VIDEO SETUP -------- */
+  setupVideos() {
+    document.querySelectorAll('.journey-video').forEach((video) => {
+      const data = {
+        element   : video,
+        step      : video.closest('.journey-step'),
+        loading   : video.parentElement.querySelector('.video-loading'),
+        duration  : 0,
+        isLoaded  : false,
+        isVisible : false
+      };
+
+      video.addEventListener('loadedmetadata', () => {
+        data.duration = video.duration;
+        data.isLoaded = true;
+        data.loading?.classList.add('hidden');
+      });
+
+      video.muted   = true;
+      video.preload = 'metadata';
+      video.load();
+
+      this.videos.push(data);
+    });
+  }
+
+  /* -------- SCROLL HANDLING -------- */
+  setupScrollListener() {
+    const onScroll = () => {
+      // Calcular diferencia de scroll
+      const newY = window.scrollY;
+      this.scrollDelta = newY - this.lastScrollY;
+      this.lastScrollY = newY;
+
+      this.isScrolling = true;
+      this.lastScrollTime = performance.now();
+      if (this.scrollTimeout) clearTimeout(this.scrollTimeout);
+
+      this.updateVideos(); // avanza vídeos según scroll
+
+      this.scrollTimeout = setTimeout(() => {
+        if (performance.now() - this.lastScrollTime >= 120) {
+          this.isScrolling = false;
+          this.updateVideos(); // cambio a slow-mo
+        }
+      }, 120);
+    };
+
+    ['scroll', 'wheel', 'touchmove'].forEach(evt =>
+      window.addEventListener(evt, onScroll, { passive: true })
+    );
+  }
+
+  /* -------- CORE LOOP -------- */
+  updateVideos() {
+    const winH = window.innerHeight;
+
+    this.videos.forEach(data => {
+      if (!data.isLoaded) return;
+
+      const rect       = data.step.getBoundingClientRect();
+      const inViewport = rect.top < winH && rect.bottom > 0;
+      data.isVisible   = inViewport;
+
+      if (!inViewport) {
+        data.element.pause();
+        return;
+      }
+
+      const centerDist = Math.abs((rect.top + rect.height / 2) - winH / 2);
+      const isFocused  = centerDist < winH * this.focusOffset;
+
+      if (this.isScrolling) {
+        // -------- SCRUBBING INCREMENTAL --------
+        data.element.pause();
+        data.element.playbackRate = 1;
+
+        // Sumar tiempo proporcional al desplazamiento del scroll
+        let newTime = data.element.currentTime + this.scrollDelta * this.scrollRate;
+        newTime = Math.max(0, Math.min(newTime, data.duration));
+        if (Math.abs(newTime - data.element.currentTime) > this.scrubEpsilon)
+          data.element.currentTime = newTime;
+      } else if (isFocused) {
+        // -------- SLOW-MOTION --------
+        if (data.element.paused) data.element.play().catch(() => {});
+        data.element.playbackRate = this.slowRate;
+      } else {
+        data.element.pause();
+      }
+    });
+
+    // Reset delta después de aplicar en todos los vídeos
+    this.scrollDelta = 0;
+  }
+
+  /* -------- HELPERS -------- */
+  easeInOutCubic(t) {
+    return t < 0.5 ? 4 * t ** 3 : 1 - ((-2 * t + 2) ** 3) / 2;
+  }
+
+  /* -------- FADE-IN ANIMATION -------- */
+  setupIntersectionObserver() {
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => e.isIntersecting && e.target.classList.add('visible'));
+    }, { threshold: 0.3, rootMargin: '0px 0px -10% 0px' });
+
+    document.querySelectorAll('.fade-in, .journey-step').forEach(el => io.observe(el));
+  }
+}
+
+/* ---------- INICIALIZAR ---------- */
+document.addEventListener('DOMContentLoaded', () => new ScrollVideoController());
+
+    </script>
+
+    <script>
+        // Tu script de sistema de partículas complejo
+        class ComplexParticleSystem {
+            constructor() {
+                this.canvas = document.getElementById('particleCanvas');
+                this.ctx = this.canvas.getContext('2d');
+                this.particles = [];
+                this.swarms = [];
+                this.windFields = [];
+                this.constellations = [];
+                this.mouse = { x: 0, y: 0 };
+                this.scrollY = 0;
+                this.lastScrollY = 0;
+                this.scrollVelocity = 0;
+                this.time = 0;
+                this.trailPoints = [];
+                
+                this.init();
+                this.animate();
+                this.setupEventListeners();
+            }
+
+            init() {
+                this.resizeCanvas();
+                this.createParticleSystem();
+                this.createWindFields();
+                this.createConstellations();
+            }
+
+            resizeCanvas() {
+                this.canvas.width = window.innerWidth;
+                this.canvas.height = window.innerHeight;
+            }
+
+            createWindFields() {
+                this.windFields = [];
+                const fieldCount = 15;
+                
+                for (let i = 0; i < fieldCount; i++) {
+                    this.windFields.push({
+                        x: Math.random() * this.canvas.width,
+                        y: Math.random() * this.canvas.height,
+                        radius: Math.random() * 300 + 200,
+                        strength: Math.random() * 0.3 + 0.1,
+                        direction: Math.random() * Math.PI * 2,
+                        rotationSpeed: (Math.random() - 0.5) * 0.01,
+                        phase: Math.random() * Math.PI * 2,
+                        frequency: Math.random() * 0.02 + 0.005
+                    });
+                }
+            }
+
+            createConstellations() {
+                this.constellations = [];
+            }
+
+            getStarColor() {
+                const starTypes = [
+                    { hue: 0, saturation: 0, lightness: 90 },     // Blanco
+                    { hue: 50, saturation: 100, lightness: 85 },  // Amarillo
+                    { hue: 220, saturation: 80, lightness: 75 },  // Azul
+                    { hue: 25, saturation: 90, lightness: 80 },   // Amarillo cálido
+                    { hue: 200, saturation: 60, lightness: 85 },  // Azul claro
+                    { hue: 0, saturation: 20, lightness: 95 }     // Blanco cálido
+                ];
+                
+                return starTypes[Math.floor(Math.random() * starTypes.length)];
+            }
+
+            getGaussianPosition(centerX, centerY, maxRadius) {
+                const u1 = Math.random();
+                const u2 = Math.random();
+                
+                const z0 = Math.sqrt(-2 * Math.log(u1)) * Math.cos(2 * Math.PI * u2);
+                const z1 = Math.sqrt(-2 * Math.log(u1)) * Math.sin(2 * Math.PI * u2);
+                
+                const x = centerX + (z0 * maxRadius * 0.3);
+                const y = centerY + (z1 * maxRadius * 0.3);
+                
+                return {
+                    x: Math.max(0, Math.min(this.canvas.width, x)),
+                    y: Math.max(0, Math.min(this.canvas.height, y))
+                };
+            }
+
+            createParticleSystem() {
+                this.particles = [];
+                this.swarms = [];
+                
+                const isMobile = window.innerWidth < 768;
+                const swarmCount = 4;
+                const centerX = this.canvas.width / 2;
+                const centerY = this.canvas.height / 2;
+                const maxRadius = Math.min(this.canvas.width, this.canvas.height) * 0.5;
+                
+                for (let s = 0; s < swarmCount; s++) {
+                    let swarmPosition;
+                    
+                    if (s < swarmCount * 0.6) {
+                        swarmPosition = this.getGaussianPosition(centerX, centerY, maxRadius * 0.4);
+                    } else {
+                        const angle = (s / swarmCount) * Math.PI * 2 + Math.random() * 0.5;
+                        const distance = Math.random() * maxRadius * 0.7 + maxRadius * 0.3;
+                        swarmPosition = {
+                            x: centerX + Math.cos(angle) * distance,
+                            y: centerY + Math.sin(angle) * distance
+                        };
+                    }
+                    
+                    const swarm = {
+                        centerX: swarmPosition.x,
+                        centerY: swarmPosition.y,
+                        targetX: swarmPosition.x + (Math.random() - 0.5) * 200,
+                        targetY: swarmPosition.y + (Math.random() - 0.5) * 200,
+                        particles: [],
+                        cohesionRadius: Math.random() * 60 + 40,
+                        separationRadius: Math.random() * 20 + 10,
+                        speed: Math.random() * 0.3 + 0.1,
+                        color: this.getStarColor(),
+                        windSensitivity: Math.random() * 0.4 + 0.1,
+                        spiralPhase: Math.random() * Math.PI * 2,
+                        spiralSpeed: Math.random() * 0.008 + 0.003
+                    };
+                    
+                    this.swarms.push(swarm);
+                }
+                
+                const swarmParticles = isMobile ? 50 : 500;
+                const particlesPerSwarm = Math.floor(swarmParticles / swarmCount);
+                
+                for (let s = 0; s < swarmCount; s++) {
+                    const swarm = this.swarms[s];
+                    
+                    const particleCount = s < swarmCount * 0.6 ? 
+                        particlesPerSwarm + Math.floor(Math.random() * 100) :
+                        0;
+                    
+                    for (let i = 0; i < particleCount; i++) {
+                        const angle = Math.random() * Math.PI * 2;
+                        const radius = Math.random() * swarm.cohesionRadius;
+                        
+                        const particle = {
+                            x: swarm.centerX + Math.cos(angle) * radius,
+                            y: swarm.centerY + Math.sin(angle) * radius,
+                            vx: (Math.random() - 0.5) * 0.5,
+                            vy: (Math.random() - 0.5) * 0.5,
+                            size: Math.random() * 0.8 + 0.2,
+                            opacity: Math.random() * 0.8 + 0.2,
+                            baseOpacity: Math.random() * 0.8 + 0.2,
+                            hue: swarm.color.hue + (Math.random() - 0.5) * 20,
+                            saturation: swarm.color.saturation + (Math.random() - 0.5) * 20,
+                            lightness: swarm.color.lightness + (Math.random() - 0.5) * 15,
+                            spin: (Math.random() - 0.5) * 0.02,
+                            spinAcceleration: 0,
+                            trail: [],
+                            maxTrailLength: Math.floor(Math.random() * 5) + 15,
+                            swarmIndex: s,
+                            phase: Math.random() * Math.PI * 2,
+                            frequency: Math.random() * 0.01 + 0.003,
+                            energy: Math.random() * 1 + 0.3,
+                            mass: Math.random() * 1 + 0.3,
+                            windResistance: Math.random() * 0.2 + 0.05,
+                            isSwarmParticle: true
+                        };
+                        
+                        this.particles.push(particle);
+                        swarm.particles.push(particle);
+                    }
+                }
+                
+                const individualParticles = isMobile ? 300 : 1500;
+                
+                for (let i = 0; i < individualParticles; i++) {
+                    const color = this.getStarColor();
+                    
+                    const particle = {
+                        x: Math.random() * this.canvas.width,
+                        y: Math.random() * this.canvas.height,
+                        vx: (Math.random() - 0.5) * 0.3,
+                        vy: (Math.random() - 0.5) * 0.3,
+                        size: Math.random() * 0.6 + 0.1,
+                        opacity: Math.random() * 0.6 + 0.1,
+                        baseOpacity: Math.random() * 0.6 + 0.1,
+                        hue: color.hue + (Math.random() - 0.5) * 30,
+                        saturation: color.saturation + (Math.random() - 0.5) * 25,
+                        lightness: color.lightness + (Math.random() - 0.5) * 20,
+                        spin: (Math.random() - 0.5) * 0.01,
+                        spinAcceleration: 0,
+                        trail: [],
+                        maxTrailLength: Math.floor(Math.random() * 3) + 1,
+                        swarmIndex: -1,
+                        phase: Math.random() * Math.PI * 2,
+                        frequency: Math.random() * 0.008 + 0.002,
+                        energy: Math.random() * 0.8 + 0.2,
+                        mass: Math.random() * 0.8 + 0.2,
+                        windResistance: Math.random() * 0.15 + 0.03,
+                        isSwarmParticle: false,
+                        driftX: (Math.random() - 0.5) * 0.001,
+                        driftY: (Math.random() - 0.5) * 0.001
+                    };
+                    
+                    this.particles.push(particle);
+                }
+            }
+
+            applySwarmBehavior(particle) {
+                if (particle.swarmIndex === -1) {
+                    return {
+                        x: particle.driftX,
+                        y: particle.driftY
+                    };
+                }
+                
+                const swarm = this.swarms[particle.swarmIndex];
+                let cohesionX = 0, cohesionY = 0, cohesionCount = 0;
+                let separationX = 0, separationY = 0;
+                let alignmentX = 0, alignmentY = 0, alignmentCount = 0;
+                
+                for (let other of swarm.particles) {
+                    if (other === particle) continue;
+                    
+                    const dx = other.x - particle.x;
+                    const dy = other.y - particle.y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+                    
+                    if (distance < swarm.cohesionRadius && distance > 0) {
+                        cohesionX += other.x;
+                        cohesionY += other.y;
+                        cohesionCount++;
+                    }
+                    
+                    if (distance < swarm.separationRadius && distance > 0) {
+                        separationX -= dx / distance;
+                        separationY -= dy / distance;
+                    }
+                    
+                    if (distance < swarm.cohesionRadius * 0.7 && distance > 0) {
+                        alignmentX += other.vx;
+                        alignmentY += other.vy;
+                        alignmentCount++;
+                    }
+                }
+                
+                if (cohesionCount > 0) {
+                    cohesionX = (cohesionX / cohesionCount - particle.x) * 0.002;
+                    cohesionY = (cohesionY / cohesionCount - particle.y) * 0.002;
+                } else {
+                    cohesionX = cohesionY = 0;
+                }
+                
+                separationX *= 0.02;
+                separationY *= 0.02;
+                
+                if (alignmentCount > 0) {
+                    alignmentX = (alignmentX / alignmentCount - particle.vx) * 0.005;
+                    alignmentY = (alignmentY / alignmentCount - particle.vy) * 0.005;
+                } else {
+                    alignmentX = alignmentY = 0;
+                }
+                
+                swarm.spiralPhase += swarm.spiralSpeed;
+                const spiralForceX = Math.cos(swarm.spiralPhase) * 0.003;
+                const spiralForceY = Math.sin(swarm.spiralPhase) * 0.003;
+                
+                return {
+                    x: cohesionX + separationX + alignmentX + spiralForceX,
+                    y: cohesionY + separationY + alignmentY + spiralForceY
+                };
+            }
+
+            applyWindForces(particle) {
+                let totalForceX = 0;
+                let totalForceY = 0;
+                
+                for (let field of this.windFields) {
+                    const dx = particle.x - field.x;
+                    const dy = particle.y - field.y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+                    
+                    if (distance < field.radius) {
+                        field.direction += field.rotationSpeed;
+                        field.phase += field.frequency;
+                        
+                        const influence = (1 - distance / field.radius) * field.strength;
+                        const windStrength = influence * (Math.sin(field.phase) * 0.5 + 1);
+                        
+                        const windX = Math.cos(field.direction) * windStrength;
+                        const windY = Math.sin(field.direction) * windStrength;
+                        
+                        totalForceX += windX * particle.windResistance;
+                        totalForceY += windY * particle.windResistance;
+                        
+                        particle.spinAcceleration += influence * 0.005;
+                    }
+                }
+                
+                return { x: totalForceX, y: totalForceY };
+            }
+
+            updateParticles() {
+                this.time += 0.016;
+                this.scrollVelocity = (this.scrollY - this.lastScrollY) * 0.1;
+                this.lastScrollY = this.scrollY;
+                
+                for (let field of this.windFields) {
+                    field.y += this.scrollVelocity * 0.5;
+                    field.direction += this.scrollVelocity * 0.01;
+                    
+                    if (field.y < -field.radius) field.y = this.canvas.height + field.radius;
+                    if (field.y > this.canvas.height + field.radius) field.y = -field.radius;
+                }
+                
+                for (let swarm of this.swarms) {
+                    if (Math.abs(this.scrollVelocity) > 0.01) {
+                        swarm.centerY += this.scrollVelocity * 0.15;
+                    }
+                    
+                    if (Math.random() < 0.0005) {
+                        swarm.targetX = Math.random() * this.canvas.width;
+                        swarm.targetY = Math.random() * this.canvas.height;
+                    }
+                    
+                    if (Math.abs(this.scrollVelocity) > 0.01 || Math.random() < 0.001) {
+                        const targetDx = swarm.targetX - swarm.centerX;
+                        const targetDy = swarm.targetY - swarm.centerY;
+                        swarm.centerX += targetDx * 0.0003;
+                        swarm.centerY += targetDy * 0.0003;
+                    }
+                    
+                    if (swarm.centerY < -200) swarm.centerY = this.canvas.height + 200;
+                    if (swarm.centerY > this.canvas.height + 200) swarm.centerY = -200;
+                }
+                
+                for (let particle of this.particles) {
+                    particle.trail.push({ x: particle.x, y: particle.y, opacity: particle.opacity });
+                    if (particle.trail.length > particle.maxTrailLength) {
+                        particle.trail.shift();
+                    }
+                    
+                    const swarmForce = this.applySwarmBehavior(particle);
+                    const windForce = this.applyWindForces(particle);
+                    
+                    const scrollEffect = Math.abs(this.scrollVelocity) > 0.01 ? this.scrollVelocity * 0.01 : 0;
+                    
+                    particle.vx += swarmForce.x + windForce.x;
+                    particle.vy += swarmForce.y + windForce.y + scrollEffect;
+                    
+                    if (Math.abs(this.scrollVelocity) < 0.01) {
+                        particle.vx *= 0.98;
+                        particle.vy *= 0.98;
+                    }
+                    
+                    const maxSpeed = 1.5;
+                    const speed = Math.sqrt(particle.vx * particle.vx + particle.vy * particle.vy);
+                    if (speed > maxSpeed) {
+                        particle.vx = (particle.vx / speed) * maxSpeed;
+                        particle.vy = (particle.vy / speed) * maxSpeed;
+                    }
+                    
+                    particle.x += particle.vx;
+                    particle.y += particle.vy;
+                    
+                    particle.spin += particle.spinAcceleration;
+                    particle.spinAcceleration *= 0.9;
+                    
+                    particle.phase += particle.frequency;
+                    particle.opacity = particle.baseOpacity * (Math.sin(particle.phase) * 0.3 + 0.7);
+                    
+                    if (particle.x < -50) particle.x = this.canvas.width + 50;
+                    if (particle.x > this.canvas.width + 50) particle.x = -50;
+                    if (particle.y < -50) particle.y = this.canvas.height + 50;
+                    if (particle.y > this.canvas.height + 50) particle.y = -50;
+                }
+            }
+
+            draw() {
+                this.ctx.fillStyle = 'rgba(10, 10, 26, 0.08)';
+                this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+                
+                for (let particle of this.particles) {
+                    for (let i = 0; i < particle.trail.length; i++) {
+                        const point = particle.trail[i];
+                        const trailOpacity = (i / particle.trail.length) * point.opacity * 0.3;
+                        const size = particle.size * (i / particle.trail.length) * 0.6;
+                        
+                        this.ctx.fillStyle = `hsla(${particle.hue}, ${particle.saturation}%, ${particle.lightness}%, ${trailOpacity})`;
+                        this.ctx.beginPath();
+                        this.ctx.arc(point.x, point.y, size, 0, Math.PI * 2);
+                        this.ctx.fill();
+                    }
+                }
+                
+                for (let particle of this.particles) {
+                    this.ctx.save();
+                    this.ctx.translate(particle.x, particle.y);
+                    this.ctx.rotate(particle.spin);
+                    
+                    const gradient = this.ctx.createRadialGradient(0, 0, 0, 0, 0, particle.size * 2);
+                    gradient.addColorStop(0, `hsla(${particle.hue}, ${particle.saturation}%, ${particle.lightness}%, ${particle.opacity})`);
+                    gradient.addColorStop(0.7, `hsla(${particle.hue}, ${particle.saturation}%, ${particle.lightness}%, ${particle.opacity * 0.3})`);
+                    gradient.addColorStop(1, 'transparent');
+                    
+                    this.ctx.fillStyle = gradient;
+                    this.ctx.beginPath();
+                    this.ctx.arc(0, 0, particle.size * 2, 0, Math.PI * 2);
+                    this.ctx.fill();
+                    
+                    this.ctx.fillStyle = `hsla(${particle.hue}, ${Math.min(particle.saturation + 10, 100)}%, ${Math.min(particle.lightness + 10, 100)}%, ${particle.opacity})`;
+                    this.ctx.beginPath();
+                    this.ctx.arc(0, 0, particle.size * 0.6, 0, Math.PI * 2);
+                    this.ctx.fill();
+                    
+                    this.ctx.restore();
+                }
+            }
+
+            animate() {
+                this.updateParticles();
+                this.draw();
+                requestAnimationFrame(() => this.animate());
+            }
+
+            setupEventListeners() {
+                window.addEventListener('resize', () => {
+                    this.canvas.width = window.innerWidth;
+                    this.canvas.height = window.innerHeight;
+                    this.resizeCanvas();
+                    this.createWindFields();
+                    this.createParticleSystem(); // <-- ¡Agrega esto!
+                    this.createConstellations();
+                });
+
+                window.addEventListener('scroll', () => {
+                    this.scrollY = window.pageYOffset;
+                });
+
+                this.canvas.addEventListener('mousemove', (e) => {
+                    this.mouse.x = e.clientX;
+                    this.mouse.y = e.clientY;
+                    
+                    for (let field of this.windFields) {
+                        const dx = this.mouse.x - field.x;
+                        const dy = this.mouse.y - field.y;
+                        const distance = Math.sqrt(dx * dx + dy * dy);
+                        
+                        if (distance < 200) {
+                            field.strength += 0.01;
+                            field.rotationSpeed += 0.001;
+                        }
+                    }
+                });
+            }
+        }
+
+        window.addEventListener('load', () => {
+            new ComplexParticleSystem();
+        });
+    </script>
+    
+    <script>
+        const etherealMessages = [
+            "El inicio de una gran aventura",
+            "Transforma todo aquello que estuvo en la sombra",
+            "Desubre tu verdadera esencia",
+            "Abraza a la versión que una vez rechazaste"
+        ];
+
+        let currentStep = 0;
+        let lastScrollY = 0;
+
+        function updateBookSteps() {
+            const bookSection = document.querySelector('.book-section');
+            const bookContainer = document.querySelector('.book-container');
+            const book = document.getElementById('book');
+            const etherealIndicator = document.getElementById('etherealIndicator');
+            const etherealText = document.getElementById('etherealText');
+            
+            const rect = bookSection.getBoundingClientRect();
+            const sectionHeight = bookSection.offsetHeight;
+            const windowHeight = window.innerHeight;
+
+            // Calcular progreso con entrada y salida suave
+            let progress;
+            if (rect.top > windowHeight * 0.1) {
+                progress = 0;
+            } else if (rect.bottom < windowHeight * 0.9) {
+                progress = 1;
+            } else {
+                const scrollableHeight = sectionHeight - windowHeight;
+                const scrolled = Math.abs(rect.top) - windowHeight * 0.1;
+                progress = Math.min(1, Math.max(0, scrolled / scrollableHeight));
+            }
+
+            // Toggle visibilidad con transición suave
+            if (progress > 0.05 && progress < 0.95) {
+                bookContainer.classList.add('visible');
+                etherealIndicator.classList.add('visible');
+            } else {
+                bookContainer.classList.remove('visible');
+                etherealIndicator.classList.remove('visible');
+            }
+
+            // Calcular paso con más tiempo en cada estado
+            let newStep;
+            if (progress <= 0.2) {
+                newStep = 0;
+            } else if (progress <= 0.45) {
+                newStep = 1;
+            } else if (progress <= 0.7) {
+                newStep = 2;
+            } else if (progress <= 0.85) {
+                newStep = 4;
+            } else {
+                newStep = 4;
+            }
+
+            // Actualizar paso si ha cambiado
+            if (newStep !== currentStep) {
+                currentStep = newStep;
+                book.className = `book step-${currentStep}`;
+
+                // Actualizar mensaje etéreo con transición
+                const messageIndex = Math.min(currentStep, etherealMessages.length - 1);
+                etherealText.style.opacity = '0';
+                setTimeout(() => {
+                    etherealText.textContent = etherealMessages[messageIndex];
+                    etherealText.style.opacity = '1';
+                }, 250);
+            }
+        }
+
+        // Optimización de scroll para móviles
+        let ticking = false;
+        function requestTick() {
+            if (!ticking) {
+                requestAnimationFrame(updateBookSteps);
+                ticking = true;
+                setTimeout(() => { ticking = false; }, 16);
+            }
+        }
+
+        // Event listeners
+        window.addEventListener('scroll', requestTick, { passive: true });
+        window.addEventListener('load', updateBookSteps);
+        window.addEventListener('resize', () => {
+            setTimeout(updateBookSteps, 100);
+        });
+
+        // Inicialización
+        updateBookSteps();
+    </script>
+    
+    <script>
+function getLangParam() {
+  return new URLSearchParams(window.location.search).get('lang');
+}
+
+function applyTranslations(dict) {
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (dict[key]) {
+      el.innerHTML = dict[key];
+    }
+  });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  const lang = getLangParam();
+  if (lang === 'en') {
+    fetch('translations.json')
+      .then(res => res.json())
+      .then(applyTranslations)
+      .catch(e => console.error('Error loading translations.json:', e));
+  }
+});
+</script>
+
+</body>
+</html>
