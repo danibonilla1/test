@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Black Sheep's Diary - Journey to the Depths of Human Essence</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@300;400;500;600;700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
     <style>
         * {
@@ -18,8 +20,6 @@
             --mystic-blue: #0f1419;
             --ethereal-white: #f8f6f0;
             --shadow-black: #000000;
- 
-            --ethereal-white:#f8f6f0;
             --page-cream:#fffef7;
             --text-dark:#1a0d2e;
             --shadow-dark:rgba(0,0,0,0.4);
@@ -2072,7 +2072,7 @@
             <div class="journey-step" data-video-index="0">
                 <div class="journey-dot"></div>
                 <div class="journey-visual">
-                    <video class="journey-video" muted playsinline preload="metadata">
+                    <video class="journey-video" muted playsinline preload="none" loading="lazy">
                         <source src="https://replicate.delivery/xezq/uKoGHo6USY53BNgN29QQt7hPXP7tZzYtVnyvqG9fwOvUzWRKA/tmphkk4l9cz.mp4" type="video/mp4">
                     </video>
                     <div class="video-loading" data-i18n="story.loading">Loading...</div>
@@ -2092,7 +2092,7 @@
             <div class="journey-step" data-video-index="1">
                 <div class="journey-dot"></div>
                 <div class="journey-visual">
-                    <video class="journey-video" muted playsinline preload="metadata">
+                    <video class="journey-video" muted playsinline preload="none" loading="lazy">
                         <source src="https://replicate.delivery/xezq/Vb8o71XdSxaVDdbOTdNY5RUflHRFKc1AmvmFYZeB018TBuiUA/tmp_kk_vw1g.mp4" type="video/mp4">
                     </video>
                     <div class="video-loading" data-i18n="story.loading">Loading...</div>
@@ -2112,7 +2112,7 @@
             <div class="journey-step" data-video-index="2">
                 <div class="journey-dot"></div>
                 <div class="journey-visual">
-                    <video class="journey-video" muted playsinline preload="metadata">
+                    <video class="journey-video" muted playsinline preload="none" loading="lazy">
                         <source src="https://replicate.delivery/xezq/1dbbYCYunIZ4ARB0YwKTjiNegecboTrlWRYi7yTfnAyEC9CpA/tmpnt03699i.mp4" type="video/mp4">
                     </video>
                     <div class="video-loading" data-i18n="story.loading">Loading...</div>
@@ -2132,7 +2132,7 @@
             <div class="journey-step" data-video-index="3">
                 <div class="journey-dot"></div>
                 <div class="journey-visual">
-                    <video class="journey-video" muted playsinline preload="metadata">
+                    <video class="journey-video" muted playsinline preload="none" loading="lazy">
                         <source src="https://replicate.delivery/xezq/UbdsgDvKJVocLJj2vRTXobmaMraXendC5jxwwgcQnY8zRXRKA/tmpj8f4_5ar.mp4" type="video/mp4">
                     </video>
                     <div class="video-loading" data-i18n="story.loading">Loading...</div>
@@ -2799,6 +2799,16 @@ class ScrollVideoController {
 
   /* -------- VIDEO SETUP -------- */
   setupVideos() {
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting && !entry.target.dataset.loaded) {
+          entry.target.preload = 'metadata';
+          entry.target.load();
+          entry.target.dataset.loaded = 'true';
+        }
+      });
+    }, { rootMargin: '200px' });
+
     document.querySelectorAll('.journey-video').forEach((video) => {
       const data = {
         element   : video,
@@ -2816,10 +2826,10 @@ class ScrollVideoController {
       });
 
       video.muted   = true;
-      video.preload = 'metadata';
-      video.load();
+      video.preload = 'none';
 
       this.videos.push(data);
+      io.observe(video);
     });
   }
 
