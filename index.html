@@ -2928,9 +2928,11 @@ document.addEventListener('DOMContentLoaded', () => new ScrollVideoController())
                 this.scrollVelocity = 0;
                 this.time = 0;
                 this.trailPoints = [];
+                this.targetFps = 30;
+                this.lastTime = 0;
                 
                 this.init();
-                this.animate();
+                requestAnimationFrame(ts => this.animate(ts));
                 this.setupEventListeners();
             }
 
@@ -3002,7 +3004,8 @@ document.addEventListener('DOMContentLoaded', () => new ScrollVideoController())
                 this.swarms = [];
                 
                 const isMobile = window.innerWidth < 768;
-                const swarmCount = 4;
+                // Reduce swarm count for performance on slower devices
+                const swarmCount = isMobile ? 2 : 3;
                 const centerX = this.canvas.width / 2;
                 const centerY = this.canvas.height / 2;
                 const maxRadius = Math.min(this.canvas.width, this.canvas.height) * 0.5;
@@ -3039,7 +3042,8 @@ document.addEventListener('DOMContentLoaded', () => new ScrollVideoController())
                     this.swarms.push(swarm);
                 }
                 
-                const swarmParticles = isMobile ? 50 : 500;
+                // Fewer particles to lighten CPU usage
+                const swarmParticles = isMobile ? 30 : 150;
                 const particlesPerSwarm = Math.floor(swarmParticles / swarmCount);
                 
                 for (let s = 0; s < swarmCount; s++) {
@@ -3067,7 +3071,7 @@ document.addEventListener('DOMContentLoaded', () => new ScrollVideoController())
                             spin: (Math.random() - 0.5) * 0.02,
                             spinAcceleration: 0,
                             trail: [],
-                            maxTrailLength: Math.floor(Math.random() * 5) + 15,
+                            maxTrailLength: Math.floor(Math.random() * 3) + 8,
                             swarmIndex: s,
                             phase: Math.random() * Math.PI * 2,
                             frequency: Math.random() * 0.01 + 0.003,
@@ -3082,7 +3086,8 @@ document.addEventListener('DOMContentLoaded', () => new ScrollVideoController())
                     }
                 }
                 
-                const individualParticles = isMobile ? 300 : 1500;
+                // Overall particle count trimmed for smoother animations
+                const individualParticles = isMobile ? 150 : 500;
                 
                 for (let i = 0; i < individualParticles; i++) {
                     const color = this.getStarColor();
@@ -3328,10 +3333,13 @@ document.addEventListener('DOMContentLoaded', () => new ScrollVideoController())
                 }
             }
 
-            animate() {
-                this.updateParticles();
-                this.draw();
-                requestAnimationFrame(() => this.animate());
+            animate(timestamp = 0) {
+                if (timestamp - this.lastTime > 1000 / this.targetFps) {
+                    this.lastTime = timestamp;
+                    this.updateParticles();
+                    this.draw();
+                }
+                requestAnimationFrame(ts => this.animate(ts));
             }
 
             setupEventListeners() {
